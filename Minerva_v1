@@ -1,0 +1,36 @@
+# Minerva 14/01/2025
+
+# Coisas que podem ser mudadas
+mensagemOriginal = """Mensagem de teste"""
+mensagemCriptografada = [212, 131, 247, 145, 220, 129, 227, 213, 215, 233, 145, 207, 192, 245, 223, 146, 201]
+
+# Variaveis
+chave = "@3uBel0"
+chaveSomada = 0
+resultadoDecodificar = ""
+resultadoCodificar = []
+
+# Numero da chave
+for iChave in range(len(chave)):
+    chaveSomada += ord(chave[iChave]) * iChave
+
+# Decodificar
+mensagemCriptografada.reverse()
+for iDecodificar in range(len(mensagemCriptografada)):
+    letraChave = chave[iDecodificar % len(chave)]
+    valorChaveLetra = ord(letraChave)
+    valorTexto = mensagemCriptografada[iDecodificar]
+    novoValor = (valorTexto ^ valorChaveLetra ^ chaveSomada ^ (len(chave) * len(mensagemCriptografada))) % 256
+    resultadoDecodificar += chr(novoValor)
+
+# Codificar
+for iCodificar in range(len(mensagemOriginal)):
+    letraChave = chave[iCodificar % len(chave)]
+    valorChaveLetra = ord(letraChave)
+    valorTexto = ord(mensagemOriginal[iCodificar])
+    novoValor = (valorTexto ^ valorChaveLetra ^ chaveSomada ^ (len(chave) * len(mensagemOriginal))) % 256
+    resultadoCodificar.append(novoValor)
+resultadoCodificar.reverse()
+
+# Resultado
+print(f"\n===== Decodificar =====\n{resultadoDecodificar}\n\n===== Codificar =====\n{resultadoCodificar}\n")
